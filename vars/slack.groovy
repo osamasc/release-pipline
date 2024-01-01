@@ -47,12 +47,6 @@ def checkk() {
                             submoduleCfg: [],
                             userRemoteConfigs: [[url: 'https://github.com/osamasc/release-pipline']]])
 
-    scmVars.each { k, v ->
-        println(k)
-        println(v)
-    }
-
-
     env.GIT_COMMIT = scmVars.GIT_COMMIT
     env.GIT_BRANCH = scmVars.GIT_BRANCH
 

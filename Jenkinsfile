@@ -16,7 +16,6 @@ pipeline {
 
         stage('Hello') {
             steps {
-                echo 'Hello, World!'
                 git branch: 'main', url: 'https://github.com/osamasc/release-pipline'
                 script {
                     slack.sendReleaseMessage("123")
