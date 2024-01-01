@@ -24,6 +24,11 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
+    echo env.GIT_PREVIOUS_SUCCESSFUL_COMMIT
+    echo env.GIT_BRANCH
+    echo env.GIT_COMMIT
+    echo env.GIT_URL
+
     String channel = 'test-release-osama'
     String username = 'slack-user'
     String icon = ':e-mail:'
