@@ -18,7 +18,7 @@ pipeline {
             steps {
 //                 git branch: 'main', url: 'https://github.com/osamasc/release-pipline'
                 script {
-                    slack.sendReleaseMessage("123")
+                    slack.sendReleaseMessage("r20230915-105717")
                 }
 
             }

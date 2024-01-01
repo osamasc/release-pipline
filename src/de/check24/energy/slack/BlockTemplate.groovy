@@ -39,7 +39,7 @@ class BlockTemplate {
                         "type": "header",
                         "text": [
                                 "type": "plain_text",
-                                "text": ":c24heartbeat: New release in progress",
+                                "text": ":c24heartbeat: Release ${buildTag} (${buildNumber})",
                                 "emoji": true
                         ]
                 ],
