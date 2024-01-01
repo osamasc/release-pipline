@@ -23,9 +23,12 @@ import de.check24.energy.slack.SlackResponse
 //}
 
 void sendReleaseMessage(String version = null, def state = Slack.BuildStatus.START) {
+
     if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.START) {
         return
     }
+
+    echo 'here'
 
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',
