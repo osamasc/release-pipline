@@ -52,6 +52,8 @@ class BlockFactory {
             }
         }
 
+        println issue
+
         Block block = new Block([
                 [
                         type    : 'actions',
