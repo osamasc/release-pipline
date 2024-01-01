@@ -155,6 +155,15 @@ class BlockTemplate {
 
         }
 
+        result.addAll([
+                [type: 'divider'],
+                [type: 'actions', elements: [
+                        [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: 'google.com'],
+                        [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: 'google.com'],
+                ]],
+                [type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]]
+        ])
+
         return new Block(result);
     }
 
