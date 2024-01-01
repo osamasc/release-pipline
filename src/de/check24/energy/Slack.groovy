@@ -119,7 +119,7 @@ class Slack {
             ArrayList block = BlockTemplate.prepare(
                     this.context.env.BUILD_NUMBER,
                     buildTag,
-                    status,
+                    getStatus(status),
                     'messagesystem',
                     triggeredBy,
                     'prod',
@@ -155,7 +155,7 @@ class Slack {
     private static String getStatus(BuildStatus status) {
         switch (status) {
             case BuildStatus.START:
-                return ':large_blue_circle: START'
+                return ':catjam: START'
             case BuildStatus.DIFF:
                 return ':pepe_roll: WAIT FOR DIFF'
             case BuildStatus.BUILD:

@@ -69,7 +69,7 @@ class BlockTemplate {
                                 ],
                                 [
                                         "type": "mrkdwn",
-                                        "text": "*⌁Status:*\n> ${status} (blue/green) :approve:"
+                                        "text": "*⌁Status:*\n> ${status}"
                                 ]
                         ]
                 ],
