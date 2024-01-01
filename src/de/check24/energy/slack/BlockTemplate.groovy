@@ -91,63 +91,32 @@ class BlockTemplate {
                 }
             }
 
-            result.add(
-                    [
-                            "type": "context",
-                            "elements": [
-                                    [
-                                            "type": "mrkdwn",
-                                            "text": ":jira:   *Tickets queued for release.*"
-                                    ]
-                            ]
-                    ],
-            )
-
-            result.add(
-                    [
-                            type    : 'actions',
-                            elements: issues
-                    ]
-            )
-
-            result.addAll([
-                    [
-                            "type": "divider"
-                    ],
-                    [
-                            "type"    : "context",
-                            "elements": [
-                                    [
-                                            "type": "mrkdwn",
-                                            "text": "*_Last Commits_*"
-                                    ]
-                            ]
-                    ]])
+            result.add([type: 'context', elements: [[type: "mrkdwn", text: ':jira:   *Tickets queued for release.*']]])
+            result.add([type: 'actions', elements: issues])
+            result.add([type: 'divider'])
+            result.add([type: 'context', elements: [[type: 'mrkdwn', text: '*_Last Commits_*']]])
 
             gitContext.commits.each { commit ->
                 result.add([
-                        "type": "context",
-                        "elements": [
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
-                                ]
-                        ]
+                        type: "context",
+                        elements: [[
+                            type: "mrkdwn",
+                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
+                        ]]
                 ])
             }
 
-            result.add([type: "actions", "elements": [[type: "button", text: [type: "plain_text", emoji: true, text: ":merge:  Git diff"], style: "primary", url: diffLink]]])
+            result.add([type: 'actions', elements: [[type: 'button', text: [type: 'plain_text', emoji: true, text: ':merge:  Git diff'], style: 'primary', url: diffLink]]])
 
         }
 
-        result.addAll([
-                [type: 'divider'],
-                [type: 'actions', elements: [
-                        [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: 'google.com'],
-                        [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: 'google.com'],
-                ]],
-                [type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]]
-        ])
+        result.add([type: 'divider'])
+        result.add([type: 'actions', elements: [
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: 'google.com'],
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: 'google.com']
+        ]],
+        )
+        result.add([type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]])
 
         return new Block(result);
     }
