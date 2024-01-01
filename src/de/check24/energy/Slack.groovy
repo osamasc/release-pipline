@@ -122,7 +122,8 @@ class Slack {
                     status,
                     'messagesystem',
                     triggeredBy,
-                    'prod'
+                    'prod',
+                    true
             )
 
 //            ArrayList block = builder.getBuildMessage(

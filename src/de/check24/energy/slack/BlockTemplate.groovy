@@ -33,7 +33,7 @@ class BlockTemplate {
         ]
     ])
 
-    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env) {
+    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, tickets) {
         def tmp = [
                 [
                         "type": "header",
@@ -65,7 +65,7 @@ class BlockTemplate {
                                 ],
                                 [
                                         "type": "mrkdwn",
-                                        "text": "*✎ Environment:*\n>${env}"
+                                        "text": "*⌁ Environment:*\n>${env}"
                                 ],
                                 [
                                         "type": "mrkdwn",
@@ -76,6 +76,19 @@ class BlockTemplate {
                 [
                         "type": "divider"
                 ]]
+
+        if (tickets) {
+            tmp.addAll([
+                    "type": "context",
+                    "elements": [
+                            [
+                                    "type": "mrkdwn",
+                                    "text": ":jira:   *Tickets queued for release.*"
+                            ]
+                    ]
+            ],
+            )
+        }
 
         return new Block(tmp);
     }
