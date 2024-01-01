@@ -54,7 +54,7 @@ class SlackRequest {
 
     SlackResponse getUserIdByEmail(String email) {
 
-        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        println "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 
 
         this.context.withCredentials([
