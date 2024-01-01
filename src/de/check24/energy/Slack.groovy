@@ -105,6 +105,8 @@ class Slack {
             BuildStatus status = BuildStatus.START,
             String timestamp = null
     ) {
+        println "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+
         this.context.wrap([$class: 'BuildUser']) {
             BlockFactory builder = new BlockFactory()
 
