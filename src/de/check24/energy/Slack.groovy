@@ -121,7 +121,9 @@ class Slack {
                     'messagesystem',
                     triggeredBy,
                     'prod',
-                    this.gitContext
+                    this.gitContext,
+                    this.context.env.GIT_COMMIT,
+                    this.context.env.GIT_PREVIOUS_SUCCESSFUL_COMMIT,
             )
 
             return this.sendBlock(block, timestamp)

@@ -33,10 +33,10 @@ class BlockTemplate {
         ]
     ])
 
-    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext) {
+    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo) {
 
         String diffLink = 'https://bitbucket.org/check24/' + gitContext.repoName +
-                "/branches/compare/${env.GIT_COMMIT}%0D${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
+                "/branches/compare/${gitFrom}%0D${gitTo}"
 
 
         def result = [
