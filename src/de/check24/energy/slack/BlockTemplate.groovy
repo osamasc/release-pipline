@@ -125,7 +125,7 @@ class BlockTemplate {
                         "elements": [
                                 [
                                         "type": "mrkdwn",
-                                        "text": "> <www.google.com|${commit.commitTime}> \\n> Author | ${commit.authorName} \\n> *${commit.messageTitle}*"
+                                        "text": "> <www.google.com|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
                                 ]
                         ]
                 ])
