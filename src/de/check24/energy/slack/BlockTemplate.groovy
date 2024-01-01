@@ -112,8 +112,8 @@ class BlockTemplate {
 
         result.add([type: 'divider'])
         result.add([type: 'actions', elements: [
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: 'www.google.com'],
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: 'www.google.com']
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: diffLink],
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: diffLink]
         ]],
         )
         result.add([type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]])
