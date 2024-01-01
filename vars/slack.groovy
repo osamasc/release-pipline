@@ -10,6 +10,8 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
         return
     }
 
+    echo env.GIT_COMMIT
+
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',
             from: [type: 'REF', value: 'production'],
@@ -24,9 +26,9 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
-    String channel = 'release-pipeline'
+    String channel = 'test-release-osama'
     String username = 'slack-user'
-    String icon = ':release:'
+    String icon = ':e-mail:'
 
     Slack slackInstance = new Slack(this, JOB_BASE_NAME, channel, username, icon, gitContext, 'slack')
     SlackResponse response = slackInstance.sendBuildMessage(version, state, env.SLACK_TIMESTAMP)
