@@ -116,6 +116,8 @@ class Slack {
                     this.gitContext,
                     this.context.env.GIT_COMMIT,
                     this.context.env.GIT_PREVIOUS_SUCCESSFUL_COMMIT,
+                    this.context.env.BUILD_URL,
+                    this.context.env.BUILD_DISPLAY_NAME
             )
 
             return this.sendBlock(block, timestamp)

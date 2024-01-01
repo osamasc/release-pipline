@@ -5,7 +5,7 @@ import java.time.format.*
 
 class BlockTemplate {
 
-    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo) {
+    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo, buildUrl, buildDisplayName) {
 
         String diffLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/branches/compare/\${gitFrom}%0D${gitTo}/$
         String tagLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/commits/tag/\${buildTag}/$
@@ -37,7 +37,7 @@ class BlockTemplate {
                                 ],
                                         [
                                         "type": "mrkdwn",
-                                        "text": "*⌁Job:*\n> *${job}*"
+                                        "text": "*⌁Job:*\n> *${buildDisplayName}*"
                                 ],
                                 [
                                         "type": "mrkdwn",
@@ -83,7 +83,7 @@ class BlockTemplate {
 
         result.add([type: 'divider'])
         result.add([type: 'actions', elements: [
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: diffLink],
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: buildUrl],
             [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: diffLink]
         ]],
         )
