@@ -33,6 +33,35 @@ class BlockTemplate {
         ]
     ])
 
+    static def prepare(buildNumber, buildTag, status, triggeredBy) {
+        return new Block([
+                [
+                        'type': 'header',
+                        'text': [
+                                'type': 'plain_text',
+                                'text': "Release ${buildNumber}  ${buildTag}"
+                        ]
+                ],
+                [
+                        'type': 'section',
+                        'fields': [
+                                [
+                                        'type': 'mrkdwn',
+                                        'text': "*Status:*\n ${status}"
+                                ],
+                                [
+                                        'type': 'mrkdwn',
+                                        'text': ' \n '
+                                ],
+                                [
+                                        'type': 'mrkdwn',
+                                        'text': "*Triggered By:*\n ${triggeredBy}"
+                                ]
+                        ]
+                ]
+        ])
+    }
+
     Map issueMessage = [
         'type': 'button',
         'text': [

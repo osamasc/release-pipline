@@ -1,6 +1,7 @@
 package de.check24.energy
 
 import de.check24.energy.slack.BlockFactory
+import de.check24.energy.slack.BlockTemplate
 import de.check24.energy.slack.SlackRequest
 import de.check24.energy.slack.SlackResponse
 
@@ -101,7 +102,7 @@ class Slack {
     }
 
     SlackResponse sendBuildMessage(
-            String version = '',
+            String buildTag = '',
             BuildStatus status = BuildStatus.START,
             String timestamp = null
     ) {
@@ -115,15 +116,22 @@ class Slack {
 
             Integer commitCount = this.gitContext.commits.size()
 
-            ArrayList block = builder.getBuildMessage(
-                    projectName,
+            ArrayList block = BlockTemplate.prepare(
                     this.context.env.BUILD_NUMBER,
-                    triggeredBy,
-                    commitCount,
-                    version,
-                    getStatus(status)
+                    buildTag,
+                    status,
+                    triggeredBy
             )
 
+//            ArrayList block = builder.getBuildMessage(
+//                    projectName,
+//                    this.context.env.BUILD_NUMBER,
+//                    triggeredBy,
+//                    commitCount,
+//                    version,
+//                    getStatus(status)
+//            )
+//
             return this.sendBlock(block, timestamp)
         }
     }
