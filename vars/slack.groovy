@@ -12,8 +12,8 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
 
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',
-            from: [type: 'REF', value: 'main'],
             to: [type: 'COMMIT', value: env.GIT_COMMIT],
+            from: [type: 'REF', value: 'main'],
             customIssues: [
                     [
                             issuePattern: '([A-Z]+-[0-9]+)',
@@ -44,7 +44,7 @@ def checkk() {
                             extensions: [],
                             submoduleCfg: [],
                             userRemoteConfigs: [
-                                    [url: 'https://github.com/osamasc/release-pipline', credentialsId:'github']]
+                                    [url: 'https://github.com/osamasc/test-pro.git', credentialsId:'github']]
     ])
 
     env.GIT_COMMIT = scmVars.GIT_COMMIT
