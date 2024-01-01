@@ -46,13 +46,13 @@ class BlockFactory {
                 'url' : repoLink
         ]
         issues.push(bitbucketButton)
-        gitContext.issues.each { issue ->
-            if (issue.hasIssue) {
-                issues.push(this.getIssueButton(issue.title.toString(), issue.link.toString()))
-            }
+        gitContext.commits.each { issue ->
+            issues.push(this.getIssueButton(issue.messageTitle, 'xx'))
+//
+//            if (issue.hasIssue) {
+//                issues.push(this.getIssueButton(issue.title.toString(), issue.link.toString()))
+//            }
         }
-
-        println issue
 
         Block block = new Block([
                 [
