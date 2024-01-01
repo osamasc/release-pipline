@@ -39,6 +39,20 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
     }
 }
 
+def checkk() {
+    def scmVars = checkout([$class: 'GitSCM',
+                            branches: [[name: 'main']],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [],
+                            submoduleCfg: [],
+                            userRemoteConfigs: [[url: 'https://github.com/osamasc/release-pipline']]])
+
+    env.GIT_COMMIT = scmVars.GIT_COMMIT
+    env.GIT_BRANCH = scmVars.GIT_BRANCH
+
+
+}
+
 //void changeReleaseToDiff(String version = null) {
 //    sendReleaseMessage(version, Slack.BuildStatus.DIFF)
 //}
