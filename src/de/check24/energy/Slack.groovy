@@ -120,7 +120,9 @@ class Slack {
                     this.context.env.BUILD_NUMBER,
                     buildTag,
                     status,
-                    triggeredBy
+                    'messagesystem',
+                    triggeredBy,
+                    'prod'
             )
 
 //            ArrayList block = builder.getBuildMessage(
