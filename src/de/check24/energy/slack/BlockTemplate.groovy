@@ -144,7 +144,11 @@ class BlockTemplate {
         return rawString ? rawString.replaceAll(/('|")/, /\\$0/) : rawString
     }
 
-    static String getRelativeDateFromNow(Date date) {
+    static String getRelativeDateFromNow(String dateString) {
+        def formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        def dateTime = LocalDateTime.parse(dateString, formatter)
+        def date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant())
+
         def now = new Date()
         def duration = Duration.between(date.toInstant(), now.toInstant())
 
@@ -161,6 +165,7 @@ class BlockTemplate {
             return "${days} day${days > 1 ? 's' : ''} ago"
         }
     }
+
 
     Map issueMessage = [
         'type': 'button',
