@@ -34,6 +34,11 @@ class BlockTemplate {
     ])
 
     static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext) {
+
+        String diffLink = 'https://bitbucket.org/check24/' + gitContext.repoName +
+                "/branches/compare/${env.GIT_COMMIT}%0D${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
+
+
         def result = [
                 [
                         "type": "header",
@@ -143,7 +148,7 @@ class BlockTemplate {
                                                   text: ":merge:  Git diff"
                                             ],
                                             style: "primary",
-                                            value: "click_git_diff"
+                                            url: diffLink
                                     ]
                             ]
                     ])
