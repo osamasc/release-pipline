@@ -53,6 +53,10 @@ class SlackRequest {
     }
 
     public SlackResponse getUserIdByEmail(String email) {
+
+        println("slack tocken is ${this.context.env.slackToken}")
+         
+
         this.context.withCredentials([
                 this.context.string(credentialsId: 'slack', variable: 'slackToken')
         ]) {
@@ -60,7 +64,6 @@ class SlackRequest {
                     .openConnection()
             getHandler.setRequestMethod('GET')
 
-            println("slack tocken is ${this.context.env.slackToken}")
 
             getHandler.setRequestProperty('Authorization', 'Bearer ' + this.context.env.slackToken)
             return new SlackResponse().parseResponse(getHandler.getInputStream().getText())
