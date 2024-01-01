@@ -3,7 +3,8 @@ package de.check24.energy
 import static de.check24.energy.DeployType.*
 import groovy.transform.CompileStatic
 
-@CompileStatic class Config {
+@CompileStatic
+class Config {
 
     public final static Map NODES = [
             'Web': [
@@ -53,4 +54,4 @@ import groovy.transform.CompileStatic
                     'SSH-Credentials': DEFAULTSSHKEYS
             ]
     ]
-    ]
+}
