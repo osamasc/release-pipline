@@ -110,9 +110,9 @@ class Slack {
             BlockFactory builder = new BlockFactory()
 
             String triggeredBy = "Jenkins"
-            if(this.context.env.BUILD_USER_EMAIL) {
-                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
-            }
+//            if(this.context.env.BUILD_USER_EMAIL) {
+//                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
+//            }
 
             Integer commitCount = this.gitContext.commits.size()
 
