@@ -9,6 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    echo env.GIT_COMMIT
                     slack.checkk()
                 }
             }
@@ -16,7 +17,6 @@ pipeline {
 
         stage('Hello') {
             steps {
-//                 git branch: 'main', url: 'https://github.com/osamasc/release-pipline'
                 script {
                     slack.sendReleaseMessage("r20230915-105717")
                 }
