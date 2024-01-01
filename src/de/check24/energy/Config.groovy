@@ -1,6 +1,4 @@
 package de.check24.energy
-
-import static de.check24.energy.DeployType.*
 import groovy.transform.CompileStatic
 
 @CompileStatic
