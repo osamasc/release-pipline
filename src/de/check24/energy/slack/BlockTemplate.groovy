@@ -125,7 +125,7 @@ class BlockTemplate {
                         "elements": [
                                 [
                                         "type": "mrkdwn",
-                                        "text": "> <https://bitbucket.org/{{owner}}/{{repoName}}/commit/${commit.hash}|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
+                                        "text": "> <https://bitbucket.org/{{owner}}/${commit.repoName}/commit/${commit.hash}|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
                                 ]
                         ]
                 ])
