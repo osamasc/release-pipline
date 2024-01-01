@@ -54,15 +54,12 @@ class SlackRequest {
 
     SlackResponse getUserIdByEmail(String email) {
 
-
         this.context.withCredentials([
                 this.context.string(credentialsId: 'slack', variable: 'slackToken')
         ]) {
-            URLConnection getHandler = new URL('https://slack.com/api/users.lookupByEmail?email=' + email)
+            URLConnection getHandler = new URL("https://slack.com/api/users.lookupByEmail?email=${email}")
                     .openConnection()
             getHandler.setRequestMethod('GET')
-
-
             getHandler.setRequestProperty('Authorization', 'Bearer ' + this.context.env.slackToken)
             return new SlackResponse().parseResponse(getHandler.getInputStream().getText())
         }
