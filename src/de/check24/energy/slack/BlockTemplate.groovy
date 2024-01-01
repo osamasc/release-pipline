@@ -82,7 +82,7 @@ class BlockTemplate {
         if (gitContext.commits.size()) {
             gitContext.issues.each { issue ->
                 if (issue.hasIssue) {
-                    issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
+                    issues.push(getIssueButton(issue.authorName, issue.link.toString()))
                 }
             }
 

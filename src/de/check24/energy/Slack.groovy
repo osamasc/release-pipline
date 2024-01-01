@@ -114,8 +114,6 @@ class Slack {
 //                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
 //            }
 
-            Integer commitCount = this.gitContext.commits.size()
-
             ArrayList block = BlockTemplate.prepare(
                     this.context.env.BUILD_NUMBER,
                     buildTag,
@@ -126,15 +124,6 @@ class Slack {
                     this.gitContext
             )
 
-//            ArrayList block = builder.getBuildMessage(
-//                    projectName,
-//                    this.context.env.BUILD_NUMBER,
-//                    triggeredBy,
-//                    commitCount,
-//                    version,
-//                    getStatus(status)
-//            )
-//
             return this.sendBlock(block, timestamp)
         }
     }
