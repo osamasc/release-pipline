@@ -86,19 +86,6 @@ class BlockTemplate {
                 }
             }
 
-            gitContext.commits.each { commit ->
-                result.add([
-                        "type": "context",
-                        "elements": [
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "${commit.messageTitle}"
-                                ]
-                        ]
-                ])
-            }
-
-
             result.add(
                     [
                             "type": "context",
@@ -118,9 +105,32 @@ class BlockTemplate {
                     ]
             )
 
-            result.add( [
-                    "type": "divider"
-            ])
+            result.addAll([
+                    [
+                            "type": "divider"
+                    ],
+                    [
+                            "type"    : "context",
+                            "elements": [
+                                    [
+                                            "type": "mrkdwn",
+                                            "text": "*_Last Commits_*"
+                                    ]
+                            ]
+                    ]])
+
+            gitContext.commits.each { commit ->
+                result.add([
+                        "type": "context",
+                        "elements": [
+                                [
+                                        "type": "mrkdwn",
+                                        "text": "> <www.google.com|${commit.commitTime}> \\n> Author | ${commit.authorName} \\n> *${commit.messageTitle}*"
+                                ]
+                        ]
+                ])
+            }
+
         }
 
         return new Block(result);
