@@ -14,7 +14,7 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
 
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',
-            from: [type: 'REF', value: 'production'],
+            from: [type: 'REF', value: 'main'],
             to: [type: 'COMMIT', value: env.GIT_COMMIT],
             customIssues: [
                     [
@@ -41,7 +41,7 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
 
 def checkk() {
     def scmVars = checkout([$class: 'GitSCM',
-                            branches: [[name: 'main']],
+                            branches: [[name: '*/main']],
                             doGenerateSubmoduleConfigurations: false,
                             extensions: [],
                             submoduleCfg: [],
