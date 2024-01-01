@@ -17,7 +17,7 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             customIssues: [
                     [
                             issuePattern: '([A-Z]+-[0-9]+)',
-                            link        : 'https://energy.atlassian.net/browse/${PATTERN_GROUP}',
+                            link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
                             name        : 'JIRA',
                             title       : '${PATTERN_GROUP}'
                     ]
