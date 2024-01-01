@@ -138,7 +138,7 @@ class Slack {
     private static String getStatus(BuildStatus status) {
         switch (status) {
             case BuildStatus.START:
-                return ':catjam: START'
+                return ':waiting: START'
             case BuildStatus.DIFF:
                 return ':pepe_roll: WAIT FOR DIFF'
             case BuildStatus.BUILD:
