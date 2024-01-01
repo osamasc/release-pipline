@@ -52,9 +52,9 @@ class SlackRequest {
         }
     }
 
-    public SlackResponse getUserIdByEmail(String email) {
+    SlackResponse getUserIdByEmail(String email) {
 
-        println("slack tocken is Authorization")
+        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
 
         this.context.withCredentials([
