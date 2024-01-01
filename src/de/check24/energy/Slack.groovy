@@ -123,7 +123,7 @@ class Slack {
                     'messagesystem',
                     triggeredBy,
                     'prod',
-                    true
+                    this.gitContext
             )
 
 //            ArrayList block = builder.getBuildMessage(

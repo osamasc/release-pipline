@@ -33,8 +33,8 @@ class BlockTemplate {
         ]
     ])
 
-    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, tickets) {
-        def tmp = [
+    static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext) {
+        def result = [
                 [
                         "type": "header",
                         "text": [
@@ -61,7 +61,7 @@ class BlockTemplate {
                                 ],
                                 [
                                         "type": "mrkdwn",
-                                        "text": "*⌁Job:*\n> ${job}*"
+                                        "text": "*⌁Job:*\n> *${job}*"
                                 ],
                                 [
                                         "type": "mrkdwn",
@@ -77,21 +77,62 @@ class BlockTemplate {
                         "type": "divider"
                 ]]
 
-        if (tickets) {
-            tmp.addAll([
-                    "type": "context",
-                    "elements": [
-                            [
-                                    "type": "mrkdwn",
-                                    "text": ":jira:   *Tickets queued for release.*"
+        ArrayList issues = []
+
+        if (gitContext.commits.size()) {
+            gitContext.issues.each { issue ->
+                if (issue.hasIssue) {
+                    issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
+                }
+            }
+
+            result.add(
+                    [
+                            "type": "context",
+                            "elements": [
+                                    [
+                                            "type": "mrkdwn",
+                                            "text": ":jira:   *Tickets queued for release.*"
+                                    ]
                             ]
-                    ]
-            ],
+                    ],
             )
+
+            result.add(
+                    [
+                            type    : 'actions',
+                            elements: issues
+                    ]
+            )
+
+            result.add( [
+                    "type": "divider"
+            ])
         }
 
-        return new Block(tmp);
+        return new Block(result);
     }
+
+    private static Map getIssueButton(
+            String issueName,
+            String issueLink
+    ) {
+        return [
+                "type": "button",
+                "text": [
+                        "type": "plain_text",
+                        "emoji": true,
+                        "text": ":jira2: ${escapeString(issueName)}",
+                ],
+                'style': 'primary',
+                "url": "${escapeString(issueLink)}"
+        ]
+    }
+
+    private static String escapeString(String rawString) {
+        return rawString ? rawString.replaceAll(/('|")/, /\\$0/) : rawString
+    }
+
 
     Map issueMessage = [
         'type': 'button',
