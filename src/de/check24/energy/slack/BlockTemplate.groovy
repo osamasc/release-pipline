@@ -80,13 +80,24 @@ class BlockTemplate {
         ArrayList issues = []
 
         if (gitContext.commits.size()) {
-            gitContext.commits.each { issue ->
-                                    issues.push(getIssueButton(issue.messageTitle, 'google.com'))
-
-//                if (issue.hasIssue) {
-//                    issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
-//                }
+            gitContext.issues.each { issue ->
+                if (issue.hasIssue) {
+                    issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
+                }
             }
+
+            gitContext.commits.each { commit ->
+                result.add([
+                        "type": "context",
+                        "elements": [
+                                [
+                                        "type": "mrkdwn",
+                                        "text": "${commit.messageTitle}"
+                                ]
+                        ]
+                ])
+            }
+
 
             result.add(
                     [
