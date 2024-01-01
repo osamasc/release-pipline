@@ -108,7 +108,7 @@ class Slack {
         this.context.wrap([$class: 'BuildUser']) {
             BlockFactory builder = new BlockFactory()
 
-            String triggeredBy = env.BUILD_USER_ID
+            String triggeredBy = this.context.env.BUILD_USER_ID
             if(this.context.env.BUILD_USER_EMAIL) {
                  triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
             }
