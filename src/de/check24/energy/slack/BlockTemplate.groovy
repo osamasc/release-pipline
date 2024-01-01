@@ -38,9 +38,8 @@ class BlockTemplate {
 
     static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo) {
 
-        String diffLink = 'https://bitbucket.org/check24/' + gitContext.repoName +
-                "/branches/compare/${gitFrom}%0D${gitTo}"
-
+        String diffLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/branches/compare/\${gitFrom}%0D${gitTo}/$
+        String tagLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/commits/tag/\${buildTag}/$
 
         def result = [
                 [
@@ -65,9 +64,9 @@ class BlockTemplate {
                         "fields": [
                                 [
                                         "type": "mrkdwn",
-                                        "text": "*⌁Tag:*\n> ${buildTag}"
+                                        "text": "*⌁Tag:*\n> <${tagLink}|${buildTag}>"
                                 ],
-                                [
+                                        [
                                         "type": "mrkdwn",
                                         "text": "*⌁Job:*\n> *${job}*"
                                 ],
@@ -97,14 +96,14 @@ class BlockTemplate {
             result.add([type: 'context', elements: [[type: "mrkdwn", text: ':jira:   *Tickets queued for release.*']]])
             result.add([type: 'actions', elements: issues])
             result.add([type: 'divider'])
-            result.add([type: 'context', elements: [[type: 'mrkdwn', text: '*_Last Commits_*']]])
+            result.add([type: 'context', elements: [[type: 'mrkdwn', text: '*_Last Commits_⏋*']]])
 
             gitContext.commits.each { commit ->
                 result.add([
                         type: "context",
                         elements: [[
                             type: "mrkdwn",
-                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${getRelativeDateFromNow(commit.commitTime)}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
+                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${getRelativeDateFromNow(commit.commitTime)} ⏌> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
                         ]]
                 ])
             }
