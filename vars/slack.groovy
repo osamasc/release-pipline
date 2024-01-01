@@ -45,7 +45,7 @@ def checkk() {
                             doGenerateSubmoduleConfigurations: false,
                             extensions: [],
                             submoduleCfg: [],
-                            userRemoteConfigs: [[url: 'https://github.com/osamasc/release-pipline']]])
+                            userRemoteConfigs: [[url: 'https://github.com/osamasc/release-pipline'], [credentialsId:'github']]])
 
     env.GIT_COMMIT = scmVars.GIT_COMMIT
     env.GIT_BRANCH = scmVars.GIT_BRANCH
