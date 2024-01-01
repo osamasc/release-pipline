@@ -34,8 +34,8 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
     SlackResponse response = slackInstance.sendBuildMessage(version, state, env.SLACK_TIMESTAMP)
     if (!env.SLACK_TIMESTAMP) {
         env.SLACK_TIMESTAMP = response.ts
-        String productionCommit = sh(returnStdout: true, script: 'git rev-list -n 1 production').trim()
-        slackInstance.sendIssues(GIT_URL, productionCommit, GIT_COMMIT)
+//        String productionCommit = sh(returnStdout: true, script: 'git rev-list -n 1 production').trim()
+//        slackInstance.sendIssues(GIT_URL, productionCommit, GIT_COMMIT)
     }
 }
 

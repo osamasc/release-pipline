@@ -54,8 +54,8 @@ class SlackRequest {
 
     public SlackResponse getUserIdByEmail(String email) {
 
-        println("slack tocken is ${this.context.env.slackToken}")
-         
+        println("slack tocken is Authorization")
+
 
         this.context.withCredentials([
                 this.context.string(credentialsId: 'slack', variable: 'slackToken')
