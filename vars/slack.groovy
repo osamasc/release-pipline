@@ -50,7 +50,7 @@ def checkk() {
     env.GIT_COMMIT = scmVars.GIT_COMMIT
     env.GIT_BRANCH = scmVars.GIT_BRANCH
 
-    echo scmVars.GIT_COMMIT
+    echo "${env.GIT_COMMIT}"
 
 }
 
