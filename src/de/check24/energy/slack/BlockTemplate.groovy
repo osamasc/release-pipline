@@ -1,5 +1,8 @@
 package de.check24.energy.slack
 
+import java.time.*
+import java.time.format.*
+
 class BlockTemplate {
 
     Block buildTemplate = new Block([
@@ -101,7 +104,7 @@ class BlockTemplate {
                         type: "context",
                         elements: [[
                             type: "mrkdwn",
-                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${commit.commitTime}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
+                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${getRelativeDateFromNow(commit.commitTime)}> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
                         ]]
                 ])
             }
@@ -141,6 +144,23 @@ class BlockTemplate {
         return rawString ? rawString.replaceAll(/('|")/, /\\$0/) : rawString
     }
 
+    static String getRelativeDateFromNow(Date date) {
+        def now = new Date()
+        def duration = Duration.between(date.toInstant(), now.toInstant())
+
+        if (duration.seconds < 60) {
+            return "just now"
+        } else if (duration.toMinutes() < 60) {
+            def minutes = duration.toMinutes()
+            return "${minutes} minute${minutes > 1 ? 's' : ''} ago"
+        } else if (duration.toHours() < 24) {
+            def hours = duration.toHours()
+            return "${hours} hour${hours > 1 ? 's' : ''} ago"
+        } else {
+            def days = duration.toDays()
+            return "${days} day${days > 1 ? 's' : ''} ago"
+        }
+    }
 
     Map issueMessage = [
         'type': 'button',
