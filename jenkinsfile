@@ -8,7 +8,9 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                slack.checkk()
+                script {
+                    slack.checkk()
+                }
             }
         }
 
