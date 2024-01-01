@@ -131,6 +131,23 @@ class BlockTemplate {
                 ])
             }
 
+            result.add(
+                    [
+                            "type"    : "actions",
+                            "elements": [
+                                    [
+                                            type: "button",
+                                            text: [
+                                                  type: "plain_text",
+                                                  emoji: true,
+                                                  text: ":merge:  Git diff"
+                                            ],
+                                            style: "primary",
+                                            value: "click_git_diff"
+                                    ]
+                            ]
+                    ])
+
         }
 
         return new Block(result);
