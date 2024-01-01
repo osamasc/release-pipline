@@ -24,7 +24,7 @@ import de.check24.energy.slack.SlackResponse
 //    new Slack(this, teamName, JOB_BASE_NAME, channel, username, icon, [], 'slack').sendMessage(message, state)
 //}
 
-void sendReleaseMessage(String version = null, def state = Slack.BuildStatus.START) {
+def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.START) {
 
     if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.START) {
         return
