@@ -1,0 +1,18 @@
+@Library('utils') _
+
+import de.check24.energy.Slack
+
+pipeline {
+    agent any
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello, World!'
+                script {
+                    slack.sendReleaseMessage(1, Slack.BuildStatus.START)
+                }
+
+            }
+        }
+    }
+}
