@@ -108,7 +108,7 @@ class Slack {
         this.context.wrap([$class: 'BuildUser']) {
             BlockFactory builder = new BlockFactory()
 
-            String builderName = '<@' + this.getUserId('osama.ahmed@check24.de') + '>'
+            String builderName = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
             Integer commitCount = this.gitContext.commits.size()
 
             ArrayList block = builder.getBuildMessage(
