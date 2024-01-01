@@ -1,6 +1,6 @@
 package de.check24.energy
 
-import de.check24.energy.slack.BlockFactory
+
 import de.check24.energy.slack.BlockTemplate
 import de.check24.energy.slack.SlackRequest
 import de.check24.energy.slack.SlackResponse
@@ -95,20 +95,12 @@ class Slack {
         return this.sendMessage(message, 'error', timestamp)
     }
 
-    SlackResponse sendIssues(String repoAddress, String productionCommit, String masterCommit) {
-        BlockFactory builder = new BlockFactory()
-        ArrayList block = builder.getIssuesMessage(this.gitContext, repoAddress, productionCommit, masterCommit)
-        return this.sendBlock(block)
-    }
-
     SlackResponse sendBuildMessage(
             String buildTag = '',
             BuildStatus status = BuildStatus.START,
             String timestamp = null
     ) {
         this.context.wrap([$class: 'BuildUser']) {
-            BlockFactory builder = new BlockFactory()
-
             String triggeredBy = "Jenkins"
 //            if(this.context.env.BUILD_USER_EMAIL) {
 //                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'

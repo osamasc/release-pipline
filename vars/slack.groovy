@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 
-import de.check24.energy.Config
 import de.check24.energy.Slack
 import de.check24.energy.slack.SlackResponse
 
@@ -24,19 +23,12 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
-    echo env.GIT_PREVIOUS_SUCCESSFUL_COMMIT
-    echo env.GIT_BRANCH
-    echo env.GIT_COMMIT
-    echo env.GIT_URL
-
     String channel = 'test-release-osama'
     String username = 'slack-user'
     String icon = ':e-mail:'
 
     Slack slackInstance = new Slack(this, JOB_BASE_NAME, channel, username, icon, gitContext, 'slack')
     SlackResponse response = slackInstance.sendBuildMessage(version, state, env.SLACK_TIMESTAMP)
-
-    println response
 
     if (!env.SLACK_TIMESTAMP) {
         env.SLACK_TIMESTAMP = response.ts
@@ -59,57 +51,57 @@ def checkk() {
     env.GIT_BRANCH = scmVars.GIT_BRANCH
 }
 
-//void changeReleaseToDiff(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.DIFF)
-//}
-//
-//void changeReleaseToBuild(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.BUILD)
-//}
-//
-//void changeReleaseToTest(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.TEST)
-//}
-//
-//void changeReleaseToDeploy(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.DEPLOY)
-//}
-//
-//void changeReleaseToActivate(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.ACTIVATE)
-//}
-//
-//void changeReleaseToDelayedActivate(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.DELAYED_ACTIVATE)
-//}
-//
-//void changeReleaseToAwaitInput(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.AWAIT_INPUT)
-//}
-//
-//void changeReleaseToActive(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.ACTIVE)
-//}
-//
-//void changeReleaseToFailed(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.FAILED)
-//}
-//
-//void changeReleaseToAborted(String version = null) {
-//    sendReleaseMessage(version, Slack.BuildStatus.ABORTED)
-//}
-//
-//String getUserName(String email) {
-//    return '<@' + new Slack(this, '', JOB_BASE_NAME, '', '', '', [], 'slack').getUserName(email) + '>'
-//}
+void changeReleaseToDiff(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.DIFF)
+}
 
-//void sendSuccess(String message) {
-//    sendNotification(message, 'success')
-//}
-//
-//void sendWarning(String message) {
-//    sendNotification(message, 'warning')
-//}
+void changeReleaseToBuild(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.BUILD)
+}
+
+void changeReleaseToTest(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.TEST)
+}
+
+void changeReleaseToDeploy(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.DEPLOY)
+}
+
+void changeReleaseToActivate(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.ACTIVATE)
+}
+
+void changeReleaseToDelayedActivate(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.DELAYED_ACTIVATE)
+}
+
+void changeReleaseToAwaitInput(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.AWAIT_INPUT)
+}
+
+void changeReleaseToActive(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.ACTIVE)
+}
+
+void changeReleaseToFailed(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.FAILED)
+}
+
+void changeReleaseToAborted(String version = null) {
+    sendReleaseMessage(version, Slack.BuildStatus.ABORTED)
+}
+
+String getUserName(String email) {
+    return '<@' + new Slack(this, '', JOB_BASE_NAME, '', '', '', [], 'slack').getUserName(email) + '>'
+}
+
+void sendSuccess(String message) {
+    sendNotification(message, 'success')
+}
+
+void sendWarning(String message) {
+    sendNotification(message, 'warning')
+}
 //
 //void sendError(String message) {
 //    sendNotification(message, 'error')

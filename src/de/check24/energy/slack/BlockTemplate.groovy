@@ -5,37 +5,6 @@ import java.time.format.*
 
 class BlockTemplate {
 
-    Block buildTemplate = new Block([
-        [
-            'type': 'header',
-            'text': [
-                'type': 'plain_text',
-                'text': 'Release {{ BUILD_NUMBER }} {{ VERSION }}'
-            ]
-        ],
-        [
-            'type': 'section',
-            'fields': [
-                [
-                    'type': 'mrkdwn',
-                    'text': '*Status:*\n {{ STATUS }}'
-                ],
-                [
-                    'type': 'mrkdwn',
-                    'text': ' \n '
-                ],
-                [
-                    'type': 'mrkdwn',
-                    'text': '*Started By:*\n {{ BUILDER_NAME }}'
-                ],
-                [
-                    'type': 'mrkdwn',
-                    'text': '*Tester:*\n {{ TESTER_NAME }}'
-                ]
-            ]
-        ]
-    ])
-
     static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo) {
 
         String diffLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/branches/compare/\${gitFrom}%0D${gitTo}/$
@@ -96,7 +65,7 @@ class BlockTemplate {
             result.add([type: 'context', elements: [[type: "mrkdwn", text: ':jira:   *Tickets queued for release.*']]])
             result.add([type: 'actions', elements: issues])
             result.add([type: 'divider'])
-            result.add([type: 'context', elements: [[type: 'mrkdwn', text: '*_Last Commits_⏋*']]])
+            result.add([type: 'context', elements: [[type: 'mrkdwn', text: '⌞ Latest Commits']]])
 
             gitContext.commits.each { commit ->
                 result.add([
@@ -140,7 +109,7 @@ class BlockTemplate {
     }
 
     private static String escapeString(String rawString) {
-        return rawString ? rawString.replaceAll(/('|")/, /\\$0/) : rawString
+        return rawString ? rawString.replaceAll(/(['"])/, /\\$0/) : rawString
     }
 
     static String getRelativeDateFromNow(String dateString) {
