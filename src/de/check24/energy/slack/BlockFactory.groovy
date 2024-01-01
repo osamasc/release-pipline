@@ -47,7 +47,7 @@ class BlockFactory {
         ]
         issues.push(bitbucketButton)
         gitContext.commits.each { issue ->
-            issues.push(this.getIssueButton(issue.messageTitle, 'xx'))
+            issues.push(this.getIssueButton(issue.title.toString(), 'xx'))
 //
 //            if (issue.hasIssue) {
 //                issues.push(this.getIssueButton(issue.title.toString(), issue.link.toString()))
