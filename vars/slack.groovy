@@ -10,7 +10,7 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
         return
     }
 
-    echo GIT_COMMIT
+    echo env.GIT_COMMIT
 
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',

@@ -5,6 +5,18 @@ import de.check24.energy.Slack
 pipeline {
     agent any
     stages {
+
+        stage('Checkout') {
+            steps {
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: 'main']],
+                              doGenerateSubmoduleConfigurations: false,
+                              extensions: [],
+                              submoduleCfg: [],
+                              userRemoteConfigs: [[url: 'https://github.com/osamasc/release-pipline']]])
+                }
+        }
+
         stage('Hello') {
             steps {
                 echo 'Hello, World!'
