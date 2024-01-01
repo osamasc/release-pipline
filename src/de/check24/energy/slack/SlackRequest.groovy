@@ -59,6 +59,9 @@ class SlackRequest {
             URLConnection getHandler = new URL('https://slack.com/api/users.lookupByEmail?email=' + email)
                     .openConnection()
             getHandler.setRequestMethod('GET')
+
+            echo "slack tocken is ${this.context.env.slackToken}"
+
             getHandler.setRequestProperty('Authorization', 'Bearer ' + this.context.env.slackToken)
             return new SlackResponse().parseResponse(getHandler.getInputStream().getText())
         }
