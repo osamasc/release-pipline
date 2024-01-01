@@ -28,7 +28,7 @@ class Config {
                             'User': 'Development Deploy Release'
                     ],
                     'Deploy': [
-                            'Type': RENAME,
+                            'Type': 'RENAME',
                             'User': 'pu_test_deploy',
                             'DirBase': 'deploy.dev',
                             'Nodes': [
@@ -44,7 +44,7 @@ class Config {
                             'User': 'Staging Deploy Release'
                     ],
                     ' ': [
-                            'Type': RENAME,
+                            'Type': 'RENAME',
                             'User': 'pu_test_deploy',
                             'DirBase': 'deploy.staging',
                             'Nodes': [
