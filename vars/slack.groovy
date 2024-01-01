@@ -24,8 +24,6 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
-    println(gitContext)
-    
     String channel = 'test-release-osama'
     String username = 'slack-user'
     String icon = ':e-mail:'
