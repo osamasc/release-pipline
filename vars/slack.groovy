@@ -23,7 +23,7 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
-    String channel = 'test-release-osama'
+    String channel = 'C06C1GJPAJE'
     String username = 'slack-user'
     String icon = ':e-mail:'
 

@@ -29,7 +29,7 @@ class SlackRequest {
                 channel   : this.channel,
                 blocks    : block,
                 icon_emoji: this.iconEmoji,
-//                username  : this.username,
+                username  : this.username,
                 ts        : timestamp
         ]
 

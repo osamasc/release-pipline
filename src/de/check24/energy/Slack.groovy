@@ -58,7 +58,7 @@ class Slack {
         return this.requestHandler.sendBlock(block, timestamp)
     }
 
-    public final static enum BuildStatus {
+    final static enum BuildStatus {
 
         START,
         DIFF,
