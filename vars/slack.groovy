@@ -18,7 +18,8 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
                             issuePattern: '([A-Z]+-[0-9]+)',
                             link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
                             name        : 'JIRA',
-                            title       : '${PATTERN_GROUP}'
+                            title       : '${PATTERN_GROUP}',
+                            type        : 'F2'
                     ]
             ],
     )
