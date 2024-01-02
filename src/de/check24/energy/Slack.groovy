@@ -1,7 +1,7 @@
 package de.check24.energy
 
 
-import de.check24.energy.slack.BlockTemplate
+import de.check24.energy.slack.BlockBuilder
 import de.check24.energy.slack.SlackRequest
 import de.check24.energy.slack.SlackResponse
 
@@ -60,17 +60,16 @@ class Slack {
 
     final static enum BuildStatus {
 
-        START,
-        DIFF,
-        BUILD,
-        TEST,
-        DEPLOY,
-        ACTIVATE,
-        DELAYED_ACTIVATE,
-        AWAIT_INPUT,
+        STARTED,
+        SUCCESS,
         ACTIVE,
-        FAILED,
-        ABORTED
+        BLUEGREEN_ROLLBACK,
+        BLUEGREEN_ACTIVE,
+        DEPLOY,
+        ABORTED,
+        DELAYED_ACTIVATE,
+        ROLLBACK,
+        FAILURE,
 
     }
 
@@ -101,12 +100,12 @@ class Slack {
             String timestamp = null
     ) {
         this.context.wrap([$class: 'BuildUser']) {
-            String triggeredBy = "Jenkins"
+            String triggeredBy = 'Gatekeeper'
 //            if(this.context.env.BUILD_USER_EMAIL) {
 //                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
 //            }
 
-            ArrayList block = BlockTemplate.prepare(
+            ArrayList block = BlockBuilder.prepare(
                     this.context.env.BUILD_NUMBER,
                     buildTag,
                     getStatus(status),
@@ -139,24 +138,16 @@ class Slack {
 
     private static String getStatus(BuildStatus status) {
         switch (status) {
-            case BuildStatus.START:
-                return ':waiting: START'
-            case BuildStatus.DIFF:
-                return ':pepe_roll: WAIT FOR DIFF'
-            case BuildStatus.BUILD:
-                return ':waiting: BUILDING'
+            case BuildStatus.STARTED:
+                return ':waiting: *STARTED*'
             case BuildStatus.TEST:
                 return ':waiting: TESTING'
             case BuildStatus.DEPLOY:
                 return ':waiting: DEPLOYING'
-            case BuildStatus.ACTIVATE:
+            case BuildStatus.ACTIVE:
                 return ':waiting: ACTIVATING'
             case BuildStatus.DELAYED_ACTIVATE:
                 return ':waiting: DELAYED ACTIVATION'
-            case BuildStatus.AWAIT_INPUT:
-                return ':waiting: AWAIT INPUT'
-            case BuildStatus.ACTIVE:
-                return ':large_green_circle: ACTIVE'
             case BuildStatus.FAILED:
                 return ':alert: FAILED'
             case BuildStatus.ABORTED:

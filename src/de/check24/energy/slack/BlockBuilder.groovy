@@ -3,7 +3,7 @@ package de.check24.energy.slack
 import java.time.*
 import java.time.format.*
 
-class BlockTemplate {
+class BlockBuilder {
 
     static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo, buildUrl, buildDisplayName) {
 
@@ -11,47 +11,16 @@ class BlockTemplate {
         String tagLink = $/https://bitbucket.org/\${gitContext.ownerName}/\${gitContext.repoName}/commits/tag/\${buildTag}/$
 
         def result = [
-                [
-                        "type": "header",
-                        "text": [
-                                "type": "plain_text",
-                                "text": ":c24heartbeat: Release ${buildTag} (${buildNumber})",
-                                "emoji": true
-                        ]
-                ],
-                [
-                        "type": "context",
-                        "elements": [
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "*▷ Triggered by ${triggeredBy}*"
-                                ]
-                        ]
-                ],
-                [
-                        "type": "section",
-                        "fields": [
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "*⌁Tag:*\n> <${tagLink}|${buildTag}>"
-                                ],
-                                        [
-                                        "type": "mrkdwn",
-                                        "text": "*⌁Job:*\n> *${buildDisplayName}*"
-                                ],
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "*⌁ Environment:*\n>${env}"
-                                ],
-                                [
-                                        "type": "mrkdwn",
-                                        "text": "*⌁Status:*\n> ${status}"
-                                ]
-                        ]
-                ],
-                [
-                        "type": "divider"
-                ]]
+                [type: 'header', text: [type: "plain_text", text: ":c24heartbeat: Release ${buildTag} (${buildNumber})", emoji: true]],
+                [type: "context", elements: [[type: "mrkdwn", text: "*▷ Triggered by ${triggeredBy}*"]]],
+                [type: "section", fields: [
+                    [type: "mrkdwn", text: "*⌁Tag:*\n> <${tagLink}|${buildTag}>"],
+                    [type: "mrkdwn", text: "*⌁Job:*\n> *${buildDisplayName}*"],
+                    [type: "mrkdwn", text: "*⌁ Environment:*\n>${env}"],
+                    [type: "mrkdwn", text: "*⌁Status:*\n> ${status}"]
+                ]],
+                [type: "divider"]
+        ]
 
         ArrayList issues = []
 
@@ -62,17 +31,20 @@ class BlockTemplate {
                 }
             }
 
-            result.add([type: 'context', elements: [[type: "mrkdwn", text: ':jira:   *Tickets queued for release.*']]])
+            result.add([type: 'context', elements: [[type: 'mrkdwn', text: ':jira:   *Tickets queued for release.*']]])
             result.add([type: 'actions', elements: issues])
             result.add([type: 'divider'])
             result.add([type: 'context', elements: [[type: 'mrkdwn', text: '⌞ Latest Commits']]])
 
             gitContext.commits.each { commit ->
+                String commitLink = "https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}"
+//                String commitDate = getRelativeDateFromNow(commit.commitTime)
+                String commitDate = commit.type
                 result.add([
-                        type: "context",
+                        type: 'context',
                         elements: [[
-                            type: "mrkdwn",
-                            text: "> <https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}|${getRelativeDateFromNow(commit.commitTime)} ⏌> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
+                            type: 'mrkdwn',
+                            text: "> <${commitLink}|${commitDate} ⏌> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
                         ]]
                 ])
             }
@@ -84,7 +56,7 @@ class BlockTemplate {
         result.add([type: 'divider'])
         result.add([type: 'actions', elements: [
             [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: buildUrl],
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: diffLink]
+            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: buildUrl]
         ]],
         )
         result.add([type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]])
@@ -97,14 +69,14 @@ class BlockTemplate {
             String issueLink
     ) {
         return [
-                "type": "button",
-                "text": [
-                        "type": "plain_text",
+                type: 'button',
+                text: [
+                        "type": 'plain_text',
                         "emoji": true,
                         "text": ":jira2: ${escapeString(issueName)}",
                 ],
-                'style': 'primary',
-                "url": "${escapeString(issueLink)}"
+                style: 'primary',
+                url: "${escapeString(issueLink)}"
         ]
     }
 
@@ -133,17 +105,4 @@ class BlockTemplate {
             return "${days} day${days > 1 ? 's' : ''} ago"
         }
     }
-
-
-    Map issueMessage = [
-        'type': 'button',
-        'text': [
-            'type': 'plain_text',
-            'emoji': true,
-            'text': ':jira2: {{ ISSUE_NAME }}'
-        ],
-        'style': 'primary',
-        'url': '{{ ISSUE_LINK }}'
-    ]
-
 }
