@@ -3,9 +3,9 @@
 import de.check24.energy.Slack
 import de.check24.energy.slack.SlackResponse
 
-def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.START) {
+def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STARTED) {
 
-    if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.START) {
+    if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.STARTED) {
         return
     }
 
