@@ -96,7 +96,7 @@ class Slack {
 
     SlackResponse sendBuildMessage(
             String buildTag = '',
-            BuildStatus status = BuildStatus.START,
+            BuildStatus status = BuildStatus.STARTED,
             String timestamp = null
     ) {
         this.context.wrap([$class: 'BuildUser']) {
