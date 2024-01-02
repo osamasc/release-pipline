@@ -9,22 +9,24 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
         return
     }
 
-    def gitContext = gitChangelog(
-            returnType: 'CONTEXT',
-            from: [type: 'REF', value: 'main'],
-            to: [type: 'COMMIT', value: env.GIT_COMMIT],
-            ignoreCommitsIfMessageMatches: '^Merge.*',
-            ignoreCommitsWithoutIssue: false,
-            jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: credentialsId('jira')],
-            customIssues: [
-                    [
-                            issuePattern: '([A-Z]+-[0-9]+)',
-                            link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
-                            name        : 'F2',
-                            title       : '${PATTERN_GROUP}',
-                    ]
-            ],
-    )
+    withCredentials([string(credentialsId: 'jira', variable: 'JIRA_TOKEN')]) {
+        def gitContext = gitChangelog(
+                returnType: 'CONTEXT',
+                from: [type: 'REF', value: 'main'],
+                to: [type: 'COMMIT', value: env.GIT_COMMIT],
+                ignoreCommitsIfMessageMatches: '^Merge.*',
+                ignoreCommitsWithoutIssue: false,
+                jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: JIRA_TOKEN],
+                customIssues: [
+                        [
+                                issuePattern: '([A-Z]+-[0-9]+)',
+                                link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
+                                name        : 'F2',
+                                title       : '${PATTERN_GROUP}',
+                        ]
+                ],
+        )
+    }
 
     gitContext.issues.each { issue ->
         issue.properties.each { println "$it.key -> $it.value" }
