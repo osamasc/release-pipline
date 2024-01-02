@@ -19,15 +19,16 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
                 to: [type: 'COMMIT', value: env.GIT_COMMIT],
                 ignoreCommitsIfMessageMatches: '^Merge.*',
                 ignoreCommitsWithoutIssue: false,
-                jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: 'xxxxx'],
-                customIssues: [
-                        [
-                                issuePattern: '([A-Z]+-[0-9]+)',
-                                link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
-                                name        : 'F2',
-                                title       : '${PATTERN_GROUP}',
-                        ]
-                ],
+                jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: JIRA_TOKEN],
+                jiraIssuePattern: '([A-Z]+-[0-9]+)',
+//                customIssues: [
+//                        [
+//                                issuePattern: '([A-Z]+-[0-9]+)',
+//                                link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
+//                                name        : 'F2',
+//                                title       : '${PATTERN_GROUP}',
+//                        ]
+//                ],
         )
     }
 
