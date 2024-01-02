@@ -23,6 +23,11 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             ],
     )
 
+    gitContext.issues.each { issue ->
+        issue.properties.each { println "$it.key -> $it.value" }
+    }
+
+
     String channel = 'C06C1GJPAJE'
     String username = 'slack-user'
     String icon = ':e-mail:'
