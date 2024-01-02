@@ -32,7 +32,7 @@ class BlockBuilder {
             }
 
             if (issues.size() > 1) {
-                def AllIssues = "http://jira.com/issues/?jql=key%20in%20%28${issueIdentifiers.join(',')}%29";
+//                def AllIssues = "http://jira.com/issues/?jql=key%20in%20%28${issueIdentifiers.join(',')}%29";
             }
 
             if (issues.size()) {
