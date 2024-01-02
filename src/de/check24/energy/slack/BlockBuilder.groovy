@@ -39,7 +39,7 @@ class BlockBuilder {
             gitContext.commits.each { commit ->
                 String commitLink = "https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}"
 //                String commitDate = getRelativeDateFromNow(commit.commitTime)
-                String commitDate = commit.type
+                String commitDate = commit.commitTimeLong
                 result.add([
                         type: 'context',
                         elements: [[
