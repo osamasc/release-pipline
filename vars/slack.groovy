@@ -10,6 +10,9 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
     }
 
     withCredentials([string(credentialsId: 'jira', variable: 'JIRA_TOKEN')]) {
+
+        printf(JIRA_TOKEN)
+
         def gitContext = gitChangelog(
                 returnType: 'CONTEXT',
                 from: [type: 'REF', value: 'main'],
