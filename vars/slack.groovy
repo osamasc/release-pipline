@@ -13,7 +13,9 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             returnType: 'CONTEXT',
             from: [type: 'REF', value: 'main'],
             to: [type: 'COMMIT', value: env.GIT_COMMIT],
-
+            ignoreCommitsIfMessageMatches: '^Merge.*',
+            ignoreCommitsWithoutIssue: false,
+            jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: credentials('jira')],
             customIssues: [
                     [
                             issuePattern: '([A-Z]+-[0-9]+)',

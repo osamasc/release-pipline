@@ -26,16 +26,21 @@ class BlockBuilder {
 
         if (gitContext.commits.size()) {
             gitContext.issues.each { issue ->
-                issue.properties.each { println "$it.key -> $it.value" }
-
                 if (issue.hasIssue) {
                     issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
                 }
             }
 
-            result.add([type: 'context', elements: [[type: 'mrkdwn', text: ':jira: *Tickets queued for release.*']]])
-            result.add([type: 'actions', elements: issues])
-            result.add([type: 'divider'])
+            if (issues.size() > 1) {
+                def AllIssues = "http://jira.com/issues/?jql=key%20in%20%28${issueIdentifiers.join(',')}%29";
+            }
+
+            if (issues.size()) {
+                result.add([type: 'context', elements: [[type: 'mrkdwn', text: ':jira: *Tickets queued for release.*']]])
+                result.add([type: 'actions', elements: issues])
+                result.add([type: 'divider'])
+            }
+
             result.add([type: 'context', elements: [[type: 'mrkdwn', text: '⌞ Latest Commits']]])
 
             gitContext.commits.each { commit ->
