@@ -27,19 +27,18 @@ class BlockBuilder {
         if (gitContext.commits.size()) {
             gitContext.issues.each { issue ->
                 if (issue.hasIssue) {
-                    issues.push(getIssueButton(issue.title.toString(), issue.link.toString()))
+                    issues.push(getIssueButton(issue.type, issue.link.toString()))
                 }
             }
 
-            result.add([type: 'context', elements: [[type: 'mrkdwn', text: ':jira:   *Tickets queued for release.*']]])
+            result.add([type: 'context', elements: [[type: 'mrkdwn', text: ':jira: *Tickets queued for release.*']]])
             result.add([type: 'actions', elements: issues])
             result.add([type: 'divider'])
             result.add([type: 'context', elements: [[type: 'mrkdwn', text: '⌞ Latest Commits']]])
 
             gitContext.commits.each { commit ->
                 String commitLink = "https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}"
-//                String commitDate = getRelativeDateFromNow(commit.commitTime)
-                String commitDate = commit.commitTimeLong
+                String commitDate = getRelativeDateFromNow(commit.commitTime)
                 result.add([
                         type: 'context',
                         elements: [[
