@@ -11,16 +11,13 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
 
     withCredentials([string(credentialsId: 'jira', variable: 'JIRA_TOKEN')]) {
 
-        println JIRA_TOKEN.length()
-
         def gitContext = gitChangelog(
                 returnType: 'CONTEXT',
                 from: [type: 'REF', value: 'main'],
                 to: [type: 'COMMIT', value: env.GIT_COMMIT],
                 ignoreCommitsIfMessageMatches: '^Merge.*',
                 ignoreCommitsWithoutIssue: false,
-                jira: [server: 'https://c24-energie.atlassian.net/', username: 'osama.ahmed@check24.de', basicAuthString: JIRA_TOKEN],
-                jiraIssuePattern: '([A-Z]+-[0-9]+)',
+                jira: [server: 'https://c24-energie.atlassian.net/', jiraIssuePattern: '([A-Z]+-[0-9]+)', username: 'osama.ahmed@check24.de', basicAuthString: JIRA_TOKEN],
 //                customIssues: [
 //                        [
 //                                issuePattern: '([A-Z]+-[0-9]+)',
