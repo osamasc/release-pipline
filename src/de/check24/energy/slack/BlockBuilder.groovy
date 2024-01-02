@@ -27,7 +27,7 @@ class BlockBuilder {
         if (gitContext.commits.size()) {
             gitContext.issues.each { issue ->
                 if (issue.hasIssue) {
-                    issues.push(getIssueButton(issue.type, issue.link.toString()))
+                    issues.push(getIssueButton(issue.aaa, issue.link.toString()))
                 }
             }
 
