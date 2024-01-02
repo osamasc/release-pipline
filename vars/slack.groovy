@@ -13,13 +13,13 @@ def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STAR
             returnType: 'CONTEXT',
             from: [type: 'REF', value: 'main'],
             to: [type: 'COMMIT', value: env.GIT_COMMIT],
+
             customIssues: [
                     [
                             issuePattern: '([A-Z]+-[0-9]+)',
                             link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
-                            name        : 'JIRA',
+                            name        : 'F2',
                             title       : '${PATTERN_GROUP}',
-                            type        : 'F2'
                     ]
             ],
     )
