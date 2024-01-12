@@ -91,7 +91,7 @@ class Slack {
         return this.sendMessage(message, 'error', timestamp)
     }
 
-    SlackResponse sendBuildMessage(
+    sendBuildMessage(
             String buildTag = '',
             String project = '',
             String projectEnv = '',
@@ -119,7 +119,7 @@ class Slack {
                     this.context.env.BUILD_DISPLAY_NAME
             )
 
-            return this.sendBlock(block, timestamp)
+            return block;
         }
     }
 

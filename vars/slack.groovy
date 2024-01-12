@@ -29,17 +29,17 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     String icon = ':e-mail:'
 
     Slack slackInstance = new Slack(this, 'C06C1GJPAJE', username, icon, gitContext, 'slack')
-    SlackResponse response = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
+    def block = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
 
-    println response
+    slackSend color: "#439FE0", channel: 'C06C1GJPAJE', block: block, botUser: true
+    slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
 
-    if (!env.SLACK_TIMESTAMP) {
-        env.SLACK_TIMESTAMP = response.ts
-        def slackResponse = slackSend(channel: "C06C1GJPAJE", message: "Here is the primary message")
-        println slackResponse.threadId
-
-        slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
-    }
+//    if (!env.SLACK_TIMESTAMP) {
+//        env.SLACK_TIMESTAMP = response.ts
+//        def slackResponse = slackSend(channel: "C06C1GJPAJE", message: "Here is the primary message")
+//        println slackResponse.threadId
+//
+//    }
 }
 
 def checkk() {
