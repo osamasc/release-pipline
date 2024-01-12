@@ -35,6 +35,9 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
 
     if (!env.SLACK_TIMESTAMP) {
         env.SLACK_TIMESTAMP = response.ts
+        def slackResponse = slackSend(channel: "C06C1GJPAJE", message: "Here is the primary message")
+        println slackResponse
+
         slackSend color: "#439FE0", channel: response.ts, message: "text", botUser: true
     }
 }
