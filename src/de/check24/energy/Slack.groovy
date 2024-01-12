@@ -91,7 +91,7 @@ class Slack {
         return this.sendMessage(message, 'error', timestamp)
     }
 
-    sendBuildMessage(
+    ArrayList sendBuildMessage(
             String buildTag = '',
             String project = '',
             String projectEnv = '',
