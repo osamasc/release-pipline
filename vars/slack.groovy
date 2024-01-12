@@ -31,6 +31,8 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     Slack slackInstance = new Slack(this, 'C06C1GJPAJE', username, icon, gitContext, 'slack')
     SlackResponse response = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
 
+    print response
+
     if (!env.SLACK_TIMESTAMP) {
         env.SLACK_TIMESTAMP = response.ts
     }
