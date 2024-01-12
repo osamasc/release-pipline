@@ -29,8 +29,11 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     String icon = ':jenkins:'
 
     String triggeredBy = 'Gatekeeper'
+    println env.BUILD_USER_EMAIL
     if (env.BUILD_USER_EMAIL) {
         def userId = slackUserIdFromEmail email: env.BUILD_USER_EMAIL, botUser: true
+        println userId
+
         triggeredBy = "<@${userId}>"
     }
 
