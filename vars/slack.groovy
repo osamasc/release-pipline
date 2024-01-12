@@ -24,7 +24,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     )
 
     gitContext.commits.each { commit ->
-        println commit.AuthorEmail
+        println commit.authorEmailAddress
     }
 
     String username = 'slack-user'
