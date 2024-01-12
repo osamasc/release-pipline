@@ -31,7 +31,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     Slack slackInstance = new Slack(this, 'C06C1GJPAJE', username, icon, gitContext, 'slack')
     def block = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
 
-    slackSend color: "#439FE0", channel: 'C06C1GJPAJE', block: block, botUser: true
+    slackSend color: "#439FE0", channel: 'C06C1GJPAJE', blocks: block, botUser: true
     slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
 
 //    if (!env.SLACK_TIMESTAMP) {
