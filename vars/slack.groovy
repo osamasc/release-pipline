@@ -30,9 +30,10 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     }
 
     def mention = ''
+    println devs.unique()
     for (dev in devs.unique()) {
         user =  slackUserIdFromEmail email: dev, botUser: true
-        mention += "<@${user}>"
+        mention += "<@${user}> "
     }
 
     String username = 'slack-user'
