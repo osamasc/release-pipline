@@ -34,9 +34,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
         user =  slackUserIdFromEmail email: env.BUILD_USER_EMAIL, botUser: true
         mention += "<@${user}>"
     }
-
-    fo
-
+    
     String username = 'slack-user'
     String icon = ':jenkins:'
 
