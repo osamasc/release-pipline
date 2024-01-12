@@ -95,15 +95,11 @@ class Slack {
             String buildTag = '',
             String project = '',
             String projectEnv = '',
+            String triggeredBy = '',
             BuildStatus status = BuildStatus.STARTED,
             String timestamp = null
     ) {
         this.context.wrap([$class: 'BuildUser']) {
-
-            String triggeredBy = 'Gatekeeper'
-            if(this.context.env.BUILD_USER_EMAIL) {
-                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
-            }
 
             ArrayList block = BlockBuilder.prepare(
                     this.context.env.BUILD_NUMBER,

@@ -28,8 +28,15 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     String username = 'slack-user'
     String icon = ':jenkins:'
 
+    String triggeredBy = 'Gatekeeper'
+    if (env.BUILD_USER_EMAIL) {
+        def userId = slackUserIdFromEmail email: env.BUILD_USER_EMAIL, botUser: true
+        triggeredBy = "<@${userId}>"
+    }
+
+
     Slack slackInstance = new Slack(this, 'C06C1GJPAJE', username, icon, gitContext, 'slack')
-    def block = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
+    def block = slackInstance.sendBuildMessage(tag, project, environment, triggeredBy, status, env.SLACK_TIMESTAMP)
 
     def slackResponse = slackSend color: "#439FE0", channel: 'C06C1GJPAJE', blocks: block, botUser: true, iconEmoji: icon
     slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
