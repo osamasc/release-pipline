@@ -2,9 +2,10 @@
 import de.check24.energy.Slack
 import de.check24.energy.slack.SlackResponse
 
-def call(project, tag, environment, status) {
+def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
 
-    if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.STARTED) {
+
+    if (!env.SLACK_TIMESTAMP && status != Slack.BuildStatus.STARTED) {
         return
     }
 
