@@ -1,9 +1,8 @@
 #!/usr/bin/env groovy
-import de.check24.energy.Config
 import de.check24.energy.Slack
 import de.check24.energy.slack.SlackResponse
 
-def sendBuildNotification(project, tag, environment, status) {
+def call(project, tag, environment, status) {
 
     if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.STARTED) {
         return
