@@ -38,7 +38,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
         def slackResponse = slackSend(channel: "C06C1GJPAJE", message: "Here is the primary message")
         println slackResponse.threadId
 
-        slackSend color: "#439FE0", channel: response.ts, message: "text", botUser: true
+        slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
     }
 }
 
