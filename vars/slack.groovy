@@ -23,9 +23,19 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
             ],
     )
 
+    def devs = []
+
     gitContext.commits.each { commit ->
-        println commit.authorEmailAddress
+        devs.add(commit.authorEmailAddress);
     }
+
+    def mention = ''
+    for (dev in devs.unique()) {
+        user =  slackUserIdFromEmail email: env.BUILD_USER_EMAIL, botUser: true
+        mention += "<@${user}>"
+    }
+
+    fo
 
     String username = 'slack-user'
     String icon = ':jenkins:'
@@ -43,7 +53,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     def block = slackInstance.sendBuildMessage(tag, project, environment, triggeredBy, status, env.SLACK_TIMESTAMP)
 
     def slackResponse = slackSend color: "#439FE0", channel: 'C06C1GJPAJE', blocks: block, botUser: true, iconEmoji: icon
-    slackSend color: "#439FE0", channel: slackResponse.threadId, message: "text", botUser: true
+    slackSend color: "#439FE0", channel: slackResponse.threadId, message: mention + 'Release jetzt', botUser: true
 
 //    if (!env.SLACK_TIMESTAMP) {
 //        env.SLACK_TIMESTAMP = response.ts
