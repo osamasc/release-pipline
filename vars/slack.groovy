@@ -11,8 +11,6 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
 
     def gitContext = gitChangelog(
             returnType: 'CONTEXT',
-            from: [type: 'REF', value: 'main'],
-            to: [type: 'COMMIT', value: env.GIT_COMMIT],
             ignoreCommitsIfMessageMatches: '^Merge.*',
             ignoreCommitsWithoutIssue: false,
             customIssues: [
@@ -25,6 +23,10 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
             ],
     )
 
+    gitContext.commits.each { commit ->
+        println commit
+    }
+
     String username = 'slack-user'
     String icon = ':jenkins:'
 
@@ -33,8 +35,6 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     env.BUILD_USER_EMAIL = 'osama.ahmed@check24.de'
     if (env.BUILD_USER_EMAIL) {
         def userId = slackUserIdFromEmail email: env.BUILD_USER_EMAIL, botUser: true
-        println userId
-
         triggeredBy = "<@${userId}>"
     }
 
