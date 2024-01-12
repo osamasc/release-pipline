@@ -3,6 +3,10 @@ package de.check24.energy.slack
 import java.time.*
 import java.time.format.*
 
+/**
+ * @author Osama Ahmed <osama.ahmed@check24.de>
+ * @copyright Check24 Vergleichsportal Energie GmbH
+ */
 class BlockBuilder {
 
     static def prepare(buildNumber, buildTag, status, job, triggeredBy, env, gitContext, gitFrom, gitTo, buildUrl, buildDisplayName) {
@@ -14,10 +18,10 @@ class BlockBuilder {
                 [type: 'header', text: [type: "plain_text", text: ":c24heartbeat: Release ${buildTag} (${buildNumber})", emoji: true]],
                 [type: "context", elements: [[type: "mrkdwn", text: "*▷ Triggered by ${triggeredBy}*"]]],
                 [type: "section", fields: [
-                    [type: "mrkdwn", text: "*⌁Tag:*\n> <${tagLink}|${buildTag}>"],
-                    [type: "mrkdwn", text: "*⌁Job:*\n> *${buildDisplayName}*"],
-                    [type: "mrkdwn", text: "*⌁ Environment:*\n>${env}"],
-                    [type: "mrkdwn", text: "*⌁Status:*\n> ${status}"]
+                        [type: "mrkdwn", text: "*⌁Tag:*\n> <${tagLink}|${buildTag}>"],
+                        [type: "mrkdwn", text: "*⌁Job:*\n> *${buildDisplayName}*"],
+                        [type: "mrkdwn", text: "*⌁ Environment:*\n>${env}"],
+                        [type: "mrkdwn", text: "*⌁Status:*\n> ${status}"]
                 ]],
                 [type: "divider"]
         ]
@@ -31,8 +35,13 @@ class BlockBuilder {
                 }
             }
 
+
             if (issues.size() > 1) {
-//                def AllIssues = "http://jira.com/issues/?jql=key%20in%20%28${issueIdentifiers.join(',')}%29";
+                def issueIdentifiers = []
+                issues.each {
+                    issueIdentifiers.add(it.title.toString())
+                }
+                issues.add(getIssueButton('All', "http://jira.com/issues/?jql=key%20in%20%28${issueIdentifiers.join(',')}%29"))
             }
 
             if (issues.size()) {
@@ -47,7 +56,7 @@ class BlockBuilder {
                 String commitLink = "https://bitbucket.org/${gitContext.ownerName}/${gitContext.repoName}/commit/${commit.hash}"
                 String commitDate = getRelativeDateFromNow(commit.commitTime)
                 result.add([
-                        type: 'context',
+                        type    : 'context',
                         elements: [[
                             type: 'mrkdwn',
                             text: "> <${commitLink}|${commitDate} ⏌> \n> Author | ${commit.authorName} \n> *${commit.messageTitle}*"
@@ -61,8 +70,8 @@ class BlockBuilder {
 
         result.add([type: 'divider'])
         result.add([type: 'actions', elements: [
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: buildUrl],
-            [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: buildUrl]
+                [type: 'button', text: [type: 'plain_text', emoji: true, text: ':approve: activate'], style: 'primary', url: buildUrl],
+                [type: 'button', text: [type: 'plain_text', emoji: true, text: ':needswork: Rollback'], style: 'primary', url: buildUrl]
         ]],
         )
         result.add([type: 'context', elements: [[type: 'mrkdwn', text: 'Powered by F2. :c24tick:']]])
@@ -75,14 +84,14 @@ class BlockBuilder {
             String issueLink
     ) {
         return [
-                type: 'button',
-                text: [
-                        "type": 'plain_text',
+                type : 'button',
+                text : [
+                        "type" : 'plain_text',
                         "emoji": true,
-                        "text": ":jira2: ${escapeString(issueName)}",
+                        "text" : ":jira2: ${escapeString(issueName)}",
                 ],
                 style: 'primary',
-                url: "${escapeString(issueLink)}"
+                url  : "${escapeString(issueLink)}"
         ]
     }
 

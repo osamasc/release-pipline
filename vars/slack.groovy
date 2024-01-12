@@ -1,84 +1,53 @@
 #!/usr/bin/env groovy
-
+import de.check24.energy.Config
 import de.check24.energy.Slack
 import de.check24.energy.slack.SlackResponse
 
-def sendReleaseMessage(String version = null, def state = Slack.BuildStatus.STARTED) {
+def sendBuildNotification(project, tag, environment, status) {
 
     if (!env.SLACK_TIMESTAMP && state != Slack.BuildStatus.STARTED) {
         return
     }
 
-    withCredentials([string(credentialsId: 'jira', variable: 'JIRA_TOKEN')]) {
+    def gitContext = gitChangelog(
+            returnType: 'CONTEXT',
+            from: [type: 'REF', value: 'main'],
+            to: [type: 'COMMIT', value: env.GIT_COMMIT],
+            ignoreCommitsIfMessageMatches: '^Merge.*',
+            ignoreCommitsWithoutIssue: false,
+            customIssues: [
+                    [
+                            issuePattern: '([A-Z]+-[0-9]+)',
+                            link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
+                            name        : 'JIRA',
+                            title       : '${PATTERN_GROUP}',
+                    ]
+            ],
+    )
 
-        def gitContext = gitChangelog(
-                returnType: 'CONTEXT',
-                from: [type: 'REF', value: 'main'],
-                to: [type: 'COMMIT', value: env.GIT_COMMIT],
-                ignoreCommitsIfMessageMatches: '^Merge.*',
-                ignoreCommitsWithoutIssue: false,
-                jira: [server: 'https://c24-energie.atlassian.net/rest/api/2/', issuePattern: '([A-Z]+-[0-9]+)', username: 'osama.ahmed@check24.de', password: JIRA_TOKEN],
-//                customIssues: [
-//                        [
-//                                issuePattern: '([A-Z]+-[0-9]+)',
-//                                link        : 'https://c24-energie.atlassian.net/browse/${PATTERN_GROUP}',
-//                                name        : 'F2',
-//                                title       : '${PATTERN_GROUP}',
-//                        ]
-//                ],
-        )
-
-        gitContext.issues.each { issue ->
-            issue.properties.each { println "$it.key -> $it.value" }
-        }
-    }
-
-
-
-    String channel = 'C06C1GJPAJE'
     String username = 'slack-user'
     String icon = ':e-mail:'
 
-    Slack slackInstance = new Slack(this, JOB_BASE_NAME, channel, username, icon, gitContext, 'slack')
-    SlackResponse response = slackInstance.sendBuildMessage(version, state, env.SLACK_TIMESTAMP)
-
-    println response
+    Slack slackInstance = new Slack(this, 'C06C1GJPAJE', username, icon, gitContext, 'slack')
+    SlackResponse response = slackInstance.sendBuildMessage(tag, project, environment, status, env.SLACK_TIMESTAMP)
 
     if (!env.SLACK_TIMESTAMP) {
         env.SLACK_TIMESTAMP = response.ts
-//        String productionCommit = sh(returnStdout: true, script: 'git rev-list -n 1 production').trim()
-//        slackInstance.sendIssues(GIT_URL, productionCommit, GIT_COMMIT)
     }
 }
 
 def checkk() {
-    def scmVars = checkout([$class: 'GitSCM',
-                            branches: [[name: '*/main']],
+    def scmVars = checkout([$class                           : 'GitSCM',
+                            branches                         : [[name: '*/main']],
                             doGenerateSubmoduleConfigurations: false,
-                            extensions: [],
-                            submoduleCfg: [],
-                            userRemoteConfigs: [
-                                    [url: 'https://github.com/osamasc/test-pro.git', credentialsId:'github']]
+                            extensions                       : [],
+                            submoduleCfg                     : [],
+                            userRemoteConfigs                : [
+                                    [url: 'https://github.com/osamasc/test-pro.git', credentialsId: 'github']]
     ])
 
     env.GIT_COMMIT = scmVars.GIT_COMMIT
     env.GIT_BRANCH = scmVars.GIT_BRANCH
-}
-
-void changeReleaseToDiff(String version = null) {
-    sendReleaseMessage(version, Slack.BuildStatus.DIFF)
-}
-
-void changeReleaseToBuild(String version = null) {
-    sendReleaseMessage(version, Slack.BuildStatus.BUILD)
-}
-
-void changeReleaseToTest(String version = null) {
-    sendReleaseMessage(version, Slack.BuildStatus.TEST)
-}
-
-void changeReleaseToDeploy(String version = null) {
-    sendReleaseMessage(version, Slack.BuildStatus.DEPLOY)
 }
 
 void changeReleaseToActivate(String version = null) {

@@ -12,13 +12,11 @@ import de.check24.energy.slack.SlackResponse
 class Slack {
 
     Script context
-    String projectName
     SlackRequest requestHandler
     def gitContext
 
     Slack(
             Script jenkinsContext,
-            String projectName,
             String channel,
             String username,
             String iconEmoji,
@@ -26,7 +24,6 @@ class Slack {
             String credentialId
     ) {
         this.context = jenkinsContext
-        this.projectName = projectName
         this.requestHandler = new SlackRequest(jenkinsContext, channel, username, iconEmoji, credentialId)
         this.gitContext = gitContext
     }
@@ -96,22 +93,25 @@ class Slack {
 
     SlackResponse sendBuildMessage(
             String buildTag = '',
+            String project = '',
+            String projectEnv = '',
             BuildStatus status = BuildStatus.STARTED,
             String timestamp = null
     ) {
         this.context.wrap([$class: 'BuildUser']) {
+
             String triggeredBy = 'Gatekeeper'
-//            if(this.context.env.BUILD_USER_EMAIL) {
-//                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
-//            }
+            if(this.context.env.BUILD_USER_EMAIL) {
+                 triggeredBy = '<@' + this.getUserId(this.context.env.BUILD_USER_EMAIL) + '>'
+            }
 
             ArrayList block = BlockBuilder.prepare(
                     this.context.env.BUILD_NUMBER,
                     buildTag,
                     getStatus(status),
-                    'messagesystem',
+                    project,
                     triggeredBy,
-                    'prod',
+                    projectEnv,
                     this.gitContext,
                     this.context.env.GIT_COMMIT,
                     this.context.env.GIT_PREVIOUS_SUCCESSFUL_COMMIT,
@@ -139,17 +139,15 @@ class Slack {
     private static String getStatus(BuildStatus status) {
         switch (status) {
             case BuildStatus.STARTED:
-                return ':waiting: *STARTED*'
-            case BuildStatus.TEST:
-                return ':waiting: TESTING'
+                return '*STARTED* :waiting:'
+            case BuildStatus.TESTING:
+                return ':waiting: TESTING :waiting:'
             case BuildStatus.DEPLOY:
-                return ':waiting: DEPLOYING'
+                return ':waiting: DEPLOYING :waiting:'
             case BuildStatus.ACTIVE:
-                return ':waiting: ACTIVATING'
-            case BuildStatus.DELAYED_ACTIVATE:
-                return ':waiting: DELAYED ACTIVATION'
-            case BuildStatus.FAILED:
-                return ':alert: FAILED'
+                return ':approve: ACTIVATING :waiting:'
+            case BuildStatus.FAILURE:
+                return ':alert: FAILED:'
             case BuildStatus.ABORTED:
                 return ':thumbsdown: ABORTED'
             default:

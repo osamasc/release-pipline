@@ -2,6 +2,10 @@ package de.check24.energy.slack
 
 import groovy.json.JsonBuilder
 
+/**
+ * @author Osama Ahmed <osama.ahmed@check24.de>
+ * @copyright Check24 Vergleichsportal Energie GmbH
+ */
 class SlackRequest {
 
     Script context
