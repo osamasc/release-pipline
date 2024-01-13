@@ -52,7 +52,16 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     def block = slackInstance.sendBuildMessage(tag, project, environment, triggeredBy, status, env.SLACK_TIMESTAMP)
 
     def slackResponse = slackSend color: "#439FE0", channel: 'C06C1GJPAJE', blocks: block, botUser: true, iconEmoji: icon
-    slackSend color: "#439FE0", channel: slackResponse.threadId, message: mention + 'Release jetzt', botUser: true
+
+    lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'SIDE', matching: 'LINE'
+    def publisher = LastChanges.getLastChangesPublisher "LAST_SUCCESSFUL_BUILD", "SIDE", "LINE", true, true, "", "", "", "", ""
+    publisher.publishLastChanges()
+    def htmlDiff = publisher.getHtmlDiff()
+    writeFile file: 'build-diff.html', text: htmlDiff
+
+
+
+    //   slackSend color: "#439FE0", channel: slackResponse.threadId, message: mention + 'Release jetzt', botUser: true
 
 //    if (!env.SLACK_TIMESTAMP) {
 //        env.SLACK_TIMESTAMP = response.ts
