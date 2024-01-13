@@ -59,6 +59,7 @@ def call(project, tag, environment, status = Slack.BuildStatus.STARTED) {
     def htmlDiff = publisher.getHtmlDiff()
     writeFile file: 'build-diff.html', text: htmlDiff
 
+    slackUploadFile filePath: "build-diff.html", channel: "C06C1GJPAJE", initialComment:  "Download diff"
 
 
     //   slackSend color: "#439FE0", channel: slackResponse.threadId, message: mention + 'Release jetzt', botUser: true
